@@ -12,22 +12,19 @@
             theme: {
                 extend: {
                     colors: {
+                        twitch: '#9146FF',
+                        ytred: '#FF0033',
                         darkbg: '#09090b',
-                        darkpanel: '#121216',
-                        darkborder: '#27272a',
+                        darkpanel: '#111115',
+                        darkborder: '#222229',
                     },
                     animation: {
                         'float': 'float 3.5s ease-in-out infinite',
-                        'pulse-wave': 'pulseWave 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
                             '50%': { transform: 'translateY(-4px)' },
-                        },
-                        pulseWave: {
-                            '0%, 100%': { opacity: '0.25', transform: 'scale(0.95)' },
-                            '50%': { opacity: '1', transform: 'scale(1.06)' },
                         }
                     }
                 }
@@ -35,13 +32,23 @@
         }
     </script>
     <style>
-        /* Personalização da barra de deslocação */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #09090b; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+        /* Barra de deslocação minimalista */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(145, 70, 255, 0.35); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 0, 51, 0.55); }
 
-        /* Modo Ecrã Inteiro Interno (Expanded Panel) */
+        /* Gradiente Híbrido Twitch + YouTube */
+        .brand-gradient {
+            background: linear-gradient(135deg, #9146FF 0%, #D91B5C 55%, #FF0033 100%);
+        }
+        .brand-text-gradient {
+            background: linear-gradient(90deg, #9146FF 0%, #E11D48 55%, #FF0033 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Modo Ecrã Inteiro Interno */
         .stream-expanded {
             position: fixed !important;
             inset: 0 !important;
@@ -72,197 +79,252 @@
                 grid-column: auto;
             }
         }
-
-        /* Brilho do Logótipo */
-        .logo-glow {
-            filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.45)) drop-shadow(0 0 24px rgba(139, 92, 246, 0.3));
-        }
     </style>
 </head>
-<body class="bg-darkbg text-zinc-100 h-screen w-screen overflow-hidden flex flex-col font-sans select-none">
+<body class="bg-zinc-100 text-zinc-900 dark:bg-darkbg dark:text-zinc-100 h-screen w-screen overflow-hidden flex flex-col font-sans select-none transition-colors duration-200">
 
-    <!-- CABEÇALHO DINÂMICO -->
-    <header class="bg-darkpanel/95 backdrop-blur-md border-b border-darkborder px-3 py-2 flex flex-wrap items-center justify-between gap-2 z-30 shrink-0">
+    <!-- CABEÇALHO CLEAN E DINÂMICO -->
+    <header class="bg-white/90 dark:bg-darkpanel/95 backdrop-blur-md border-b border-zinc-200 dark:border-darkborder px-3.5 py-2 flex items-center justify-between gap-2 z-30 shrink-0 transition-colors">
         
-        <!-- Esquerda: Botões Toggle Barra de Adição e Layout -->
-        <div class="flex items-center gap-1.5 order-2 sm:order-1">
-            <button id="btnToggleAdd" onclick="toggleAddBar()" title="Mostrar/Ocultar barra de adição de canais"
-                class="flex items-center gap-1.5 bg-sky-500/15 hover:bg-sky-500/25 text-sky-400 border border-sky-500/30 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                <span>Adicionar Canal</span>
+        <!-- Esquerda: Logótipo Novo + Nome -->
+        <div class="flex items-center gap-2.5 shrink-0">
+            <!-- Novo Logótipo Vetorial (Prisma Multi-Stream Twitch + YouTube) -->
+            <div class="w-8 h-8 rounded-xl brand-gradient p-[1.5px] shadow-md shadow-purple-500/20 shrink-0">
+                <div class="w-full h-full bg-white dark:bg-zinc-950 rounded-[10.5px] flex items-center justify-center">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="wpLogoGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#9146FF"/>
+                                <stop offset="50%" stop-color="#E11D48"/>
+                                <stop offset="100%" stop-color="#FF0033"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="2.5" y="3.5" width="8.5" height="7" rx="2" stroke="url(#wpLogoGrad)" stroke-width="2"/>
+                        <rect x="13" y="3.5" width="8.5" height="7" rx="2" stroke="url(#wpLogoGrad)" stroke-width="2"/>
+                        <rect x="2.5" y="13.5" width="8.5" height="7" rx="2" stroke="url(#wpLogoGrad)" stroke-width="2"/>
+                        <path d="M14.5 14.2C14.5 13.6 15.2 13.2 15.7 13.5L20.5 16.3C21 16.6 21 17.4 20.5 17.7L15.7 20.5C15.2 20.8 14.5 20.4 14.5 19.8V14.2Z" fill="url(#wpLogoGrad)"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex items-baseline gap-1.5">
+                <span class="text-base sm:text-lg font-extrabold tracking-tight brand-text-gradient">CrisCloud</span>
+                <span class="text-xs sm:text-sm font-semibold text-zinc-500 dark:text-zinc-400">WatchParty</span>
+            </div>
+        </div>
+
+        <!-- Centro: Barra de Adição Rápida Integrada (Desktop) -->
+        <form onsubmit="handleAddStream(event)" class="hidden md:flex flex-1 max-w-xl items-center gap-1.5 mx-2">
+            <div class="relative flex-1">
+                <input id="streamInputDesktop" type="text" autocomplete="off"
+                    placeholder="Canal Twitch (ex: gaules) ou link/ID YouTube..."
+                    class="w-full bg-zinc-100 dark:bg-zinc-900/90 border border-zinc-300 dark:border-zinc-800 focus:border-purple-500 rounded-lg px-3 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 outline-none transition">
+            </div>
+            <button type="submit"
+                class="brand-gradient hover:opacity-90 text-white font-semibold px-3.5 py-1.5 rounded-lg text-xs shadow-sm transition cursor-pointer shrink-0">
+                + Adicionar
             </button>
-            <button id="btnLayout" onclick="toggleLayout()" title="Alternar entre Grelha Equilibrada e Modo Destaque"
-                class="flex items-center gap-1.5 bg-zinc-800/80 hover:bg-zinc-700 text-zinc-200 border border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
-                <svg id="iconLayout" class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        </form>
+
+        <!-- Direita: Controlos Inteligentes -->
+        <div class="flex items-center gap-1.5 shrink-0">
+            
+            <!-- Botão Mobile para adicionar -->
+            <button onclick="toggleMobileAddBar()" title="Adicionar Canal"
+                class="md:hidden flex items-center justify-center w-8 h-8 rounded-lg brand-gradient text-white shadow-sm cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            </button>
+
+            <!-- Perfis Guardados -->
+            <div class="relative">
+                <button id="btnProfiles" onclick="toggleProfilesMenu()" title="Perfis de Lives Guardados"
+                    class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                    <span class="hidden sm:inline">Perfis</span>
+                </button>
+
+                <!-- Dropdown de Perfis -->
+                <div id="profilesDropdown" class="hidden absolute right-0 mt-2 w-72 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-2xl p-3 z-50">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-zinc-800 dark:text-zinc-100">Os Meus Perfis</span>
+                        <span class="text-[10px] text-zinc-400">Local</span>
+                    </div>
+                    
+                    <form onsubmit="saveCurrentProfile(event)" class="flex gap-1.5 mb-2.5">
+                        <input id="profileNameInput" type="text" placeholder="Ex: Fortnite, Valorant..." maxlength="24"
+                            class="flex-1 bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs outline-none focus:border-purple-500">
+                        <button type="submit" class="brand-gradient text-white text-xs font-semibold px-2.5 py-1 rounded-lg hover:opacity-90 cursor-pointer shrink-0">
+                            Guardar
+                        </button>
+                    </form>
+
+                    <div id="profilesList" class="max-h-48 overflow-y-auto space-y-1 text-xs">
+                        <!-- Preenchido via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Silenciar Tudo -->
+            <button onclick="muteAllStreams()" title="Silenciar todas as streams"
+                class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
+                <svg class="w-3.5 h-3.5 text-rose-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+                <span class="hidden lg:inline">Silenciar</span>
+            </button>
+
+            <!-- Layout -->
+            <button id="btnLayout" onclick="toggleLayout()" title="Alternar Layout"
+                class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
+                <svg class="w-3.5 h-3.5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                 <span id="labelLayout" class="hidden md:inline">Grelha</span>
             </button>
-        </div>
 
-        <!-- Centro: Logótipo Dinâmico e Animado -->
-        <div class="flex items-center justify-center gap-2.5 order-1 sm:order-2 w-full sm:w-auto py-0.5">
-            <div class="relative flex items-center justify-center w-9 h-9 animate-float logo-glow">
-                <!-- Ondas de Transmissão -->
-                <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#38bdf8" />
-                            <stop offset="50%" stop-color="#6366f1" />
-                            <stop offset="100%" stop-color="#a855f7" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Ondas exteriores -->
-                    <path class="animate-pulse-wave" d="M12 13C15.5 9.5 20.5 8 24 8C27.5 8 32.5 9.5 36 13" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round"/>
-                    <path class="animate-pulse-wave" style="animation-delay: 0.4s" d="M16 17C18.3 14.8 21.3 14 24 14C26.7 14 29.7 14.8 32 17" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round"/>
-                    <!-- Nuvem Principal -->
-                    <path d="M14.5 36H34.5C38.6421 36 42 32.6421 42 28.5C42 24.6442 39.0906 21.4667 35.3446 21.0462C34.2536 16.4337 30.1112 13 25.1667 13C19.3677 13 14.6667 17.701 14.6667 23.5C14.6667 23.8168 14.6807 24.1303 14.7082 24.44C11.4945 25.1583 9 28.0273 9 31.5C9 33.9853 11.4624 36 14.5 36Z" fill="url(#cloudGrad)"/>
-                    <!-- Ícone Play no interior da nuvem -->
-                    <polygon points="22,22 22,30 29,26" fill="#ffffff"/>
-                </svg>
-            </div>
-            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-sky-400 via-indigo-400 to-violet-400 bg-clip-text text-transparent">
-                CrisCloud WatchParty
-            </h1>
-        </div>
+            <!-- Modo Claro / Escuro -->
+            <button onclick="toggleTheme()" title="Alternar Modo Claro / Escuro"
+                class="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 transition cursor-pointer">
+                <!-- Ícone Sol -->
+                <svg class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <!-- Ícone Lua -->
+                <svg class="w-4 h-4 block dark:hidden text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            </button>
 
-        <!-- Direita: Chat, Partilhar e Limpar -->
-        <div class="flex items-center gap-1.5 order-3">
-            <button id="btnToggleChat" onclick="toggleChatSidebar()" title="Abrir/Fechar Painel de Chat Lateral"
-                class="flex items-center gap-1.5 bg-zinc-800/80 hover:bg-zinc-700 text-zinc-200 border border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
-                <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            <!-- Chat -->
+            <button onclick="toggleChatSidebar()" title="Painel de Chat"
+                class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
+                <svg class="w-3.5 h-3.5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                 <span class="hidden lg:inline">Chat</span>
             </button>
 
-            <button onclick="shareRoom()" title="Copiar link de partilha com os canais atuais"
-                class="flex items-center gap-1.5 bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            <!-- Partilhar -->
+            <button onclick="shareRoom()" title="Partilhar Sala"
+                class="flex items-center gap-1.5 bg-purple-500/15 hover:bg-purple-500/25 text-purple-600 dark:text-purple-300 border border-purple-500/30 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                 <span class="hidden lg:inline">Partilhar</span>
             </button>
 
-            <button onclick="clearAllStreams()" title="Remover todas as transmissões"
-                class="flex items-center gap-1.5 bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            <!-- Limpar -->
+            <button onclick="clearAllStreams()" title="Limpar tudo"
+                class="flex items-center gap-1.5 bg-rose-500/15 hover:bg-rose-500/25 text-rose-600 dark:text-rose-300 border border-rose-500/30 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                 <span class="hidden xl:inline">Limpar</span>
             </button>
         </div>
     </header>
 
-    <!-- BARRA COMPACTA DE ADIÇÃO DE CANAIS -->
-    <div id="addBar" class="bg-zinc-900/95 border-b border-darkborder px-3 py-2 flex flex-col sm:flex-row items-center justify-center gap-2 z-20 shrink-0 transition-all">
-        <form onsubmit="handleAddStream(event)" class="flex w-full max-w-3xl items-center gap-2">
-            <div class="relative flex-1">
-                <input id="streamInput" type="text" autocomplete="off"
-                    placeholder="Cola link da Twitch (ex: twitch.tv/gaules), nome do canal (ex: shroud) ou link/ID do YouTube..."
-                    class="w-full bg-darkbg border border-zinc-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-lg px-3 py-1.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition">
-            </div>
-            <button type="submit"
-                class="bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 hover:opacity-95 text-white font-semibold px-4 py-1.5 rounded-lg text-sm shadow-md shadow-indigo-500/20 transition cursor-pointer shrink-0">
-                + Entrar
+    <!-- BARRA MÓVEL DE ADIÇÃO DE CANAIS -->
+    <div id="mobileAddBar" class="hidden bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-darkborder px-3 py-2 flex items-center gap-2 z-20 shrink-0">
+        <form onsubmit="handleAddStream(event, true)" class="flex w-full items-center gap-2">
+            <input id="streamInputMobile" type="text" autocomplete="off"
+                placeholder="Canal Twitch ou link YouTube..."
+                class="flex-1 bg-zinc-100 dark:bg-darkbg border border-zinc-300 dark:border-zinc-700 rounded-lg px-3 py-1.5 text-xs outline-none focus:border-purple-500">
+            <button type="submit" class="brand-gradient text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg shrink-0 cursor-pointer">
+                + Adicionar
             </button>
         </form>
-        <!-- Sugestões Rápidas -->
-        <div class="hidden lg:flex items-center gap-1.5 text-xs text-zinc-400">
-            <span>Rápido:</span>
-            <button onclick="quickAdd('twitch', 'gaules')" class="hover:text-purple-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700/60 transition cursor-pointer">Twitch: gaules</button>
-            <button onclick="quickAdd('twitch', 'shroud')" class="hover:text-purple-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700/60 transition cursor-pointer">Twitch: shroud</button>
-            <button onclick="quickAdd('youtube', 'jfKfPfyJRdk')" class="hover:text-red-400 bg-zinc-800/80 px-2 py-0.5 rounded border border-zinc-700/60 transition cursor-pointer">YT: Lofi Girl</button>
-        </div>
     </div>
 
-    <!-- ÁREA PRINCIPAL (GRELHA DE STREAMS + CHAT LATERAL) -->
+    <!-- ÁREA PRINCIPAL -->
     <main class="flex-1 flex overflow-hidden relative w-full h-full">
         
-        <!-- Contentor da Grelha Dinâmica -->
+        <!-- Contentor da Grelha -->
         <section id="streamsGrid" class="flex-1 h-full w-full p-1.5 gap-1.5 grid overflow-hidden transition-all">
-            <!-- Estado Vazio (Inicial) -->
-            <div id="emptyState" class="col-span-full row-span-full flex flex-col items-center justify-center text-center p-6 border border-dashed border-zinc-800 rounded-xl bg-darkpanel/40">
-                <div class="w-16 h-16 mb-4 rounded-2xl bg-gradient-to-br from-sky-500/20 via-indigo-500/20 to-violet-500/20 border border-indigo-500/30 flex items-center justify-center animate-float">
-                    <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <div id="emptyState" class="col-span-full row-span-full flex flex-col items-center justify-center text-center p-6 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-xl bg-white/50 dark:bg-darkpanel/40">
+                <div class="w-16 h-16 mb-4 rounded-2xl brand-gradient p-[1px] flex items-center justify-center shadow-lg shadow-purple-500/20">
+                    <div class="w-full h-full bg-white dark:bg-zinc-950 rounded-[15px] flex items-center justify-center">
+                        <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    </div>
                 </div>
-                <h2 class="text-lg font-bold text-zinc-100 mb-1">A tua sala WatchParty está pronta</h2>
-                <p class="text-sm text-zinc-400 max-w-md mb-5">
-                    Adiciona transmissões da <strong>Twitch</strong> ou do <strong>YouTube</strong> na barra acima para organizá-las automaticamente lado a lado sem espaços mortos.
+                <h2 class="text-lg font-bold mb-1">A tua WatchParty está pronta</h2>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mb-5">
+                    Adiciona canais da <strong>Twitch</strong> ou <strong>YouTube</strong> para começar o teu multi-stream personalizado.
                 </p>
                 <div class="flex flex-wrap items-center justify-center gap-2">
-                    <button onclick="loadDemoStreams()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition cursor-pointer">
-                        Carregar Exemplo Multi-Stream (2 Canais)
+                    <button onclick="loadDemoStreams()" class="brand-gradient text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition cursor-pointer hover:opacity-90">
+                        Carregar Exemplo Multi-Stream
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- PAINEL DE CHAT LATERAL COLAPSÁVEL -->
-        <aside id="chatSidebar" class="hidden w-80 lg:w-96 bg-darkpanel border-l border-darkborder flex-col h-full shrink-0 z-20">
-            <!-- Topo do Chat: Seletor de Canal -->
-            <div class="p-2 border-b border-darkborder flex items-center justify-between gap-2 bg-zinc-900/90">
+        <!-- CHAT LATERAL -->
+        <aside id="chatSidebar" class="hidden w-80 lg:w-96 bg-white dark:bg-darkpanel border-l border-zinc-200 dark:border-darkborder flex-col h-full shrink-0 z-20">
+            <div class="p-2 border-b border-zinc-200 dark:border-darkborder flex items-center justify-between gap-2 bg-zinc-50 dark:bg-zinc-900/90">
                 <div class="flex items-center gap-1.5 flex-1 min-w-0">
-                    <svg class="w-4 h-4 text-violet-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+                    <svg class="w-4 h-4 text-purple-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
                     <select id="chatChannelSelect" onchange="renderActiveChat()"
-                        class="w-full bg-darkbg border border-zinc-700 text-xs text-zinc-200 rounded-md px-2 py-1 outline-none focus:border-violet-500 truncate">
+                        class="w-full bg-white dark:bg-darkbg border border-zinc-300 dark:border-zinc-700 text-xs rounded-md px-2 py-1 outline-none focus:border-purple-500 truncate">
                         <option value="">Sem canais ativos...</option>
                     </select>
                 </div>
-                <button onclick="toggleChatSidebar()" title="Fechar Chat" class="text-zinc-400 hover:text-white p-1 rounded hover:bg-zinc-800 cursor-pointer">
+                <button onclick="toggleChatSidebar()" title="Fechar Chat" class="text-zinc-400 hover:text-zinc-700 dark:hover:text-white p-1 rounded cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            <!-- Contentor Iframe do Chat -->
-            <div id="chatContainer" class="flex-1 w-full h-full bg-darkbg flex items-center justify-center text-xs text-zinc-500 p-4 text-center">
-                Adiciona um canal para abrir o respetivo chat em direto.
+            <div id="chatContainer" class="flex-1 w-full h-full bg-zinc-50 dark:bg-darkbg flex items-center justify-center text-xs text-zinc-400 p-4 text-center">
+                Adiciona um canal para abrir o chat em direto.
             </div>
         </aside>
 
     </main>
 
-    <!-- NOTIFICAÇÃO TOAST -->
-    <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-zinc-900 border border-indigo-500/40 text-zinc-100 px-4 py-2 rounded-full shadow-2xl text-xs font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 z-50">
-        <span class="w-2 h-2 rounded-full bg-indigo-400 animate-ping"></span>
+    <!-- TOAST -->
+    <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-zinc-900 dark:bg-zinc-900 border border-purple-500/40 text-white px-4 py-2 rounded-full shadow-2xl text-xs font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 z-50">
+        <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
         <span id="toastMsg">Notificação</span>
     </div>
 
     <script>
-        // ==========================================
-        // ESTADO GLOBAL DA APLICAÇÃO
-        // ==========================================
-        let streams = []; // [{ id, platform: 'twitch'|'youtube', channel, label }]
-        let layoutMode = 'grid'; // 'grid' | 'spotlight'
+        let streams = [];
+        let layoutMode = 'grid';
         let expandedStreamId = null;
         let activeChatStreamId = null;
+        let audioSoloId = null;
 
-        // ==========================================
-        // DETEÇÃO DE PARÂMETROS PARENT (TWITCH)
-        // ==========================================
         function getTwitchParents() {
             const parents = new Set(['localhost', '127.0.0.1']);
-            if (window.location.hostname) {
-                parents.add(window.location.hostname);
-            }
+            if (window.location.hostname) parents.add(window.location.hostname);
             return Array.from(parents).map(p => `parent=${encodeURIComponent(p)}`).join('&');
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
             loadFromURLParams();
+            loadProfilesList();
         });
 
-        // ==========================================
-        // PARSER INTELIGENTE (TWITCH & YOUTUBE)
-        // ==========================================
+        // ==================== TEMA ====================
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('criscloud_theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('criscloud_theme', 'dark');
+            }
+        }
+
+        function loadTheme() {
+            const saved = localStorage.getItem('criscloud_theme');
+            if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        }
+
+        // ==================== PARSER ====================
         function parseStreamInput(rawInput) {
             const input = rawInput.trim();
             if (!input) return null;
 
-            // 1. Verificar YouTube
             const ytRegex = /(?:youtube\.com\/(?:watch\?v=|live\/|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
             const ytMatch = input.match(ytRegex);
-            if (ytMatch && ytMatch[1]) {
-                return { platform: 'youtube', channel: ytMatch[1], label: `YouTube (${ytMatch[1]})` };
-            }
+            if (ytMatch && ytMatch[1]) return { platform: 'youtube', channel: ytMatch[1], label: `YouTube (${ytMatch[1]})` };
 
             if (input.toLowerCase().startsWith('yt:')) {
                 const id = input.slice(3).trim();
                 if (id) return { platform: 'youtube', channel: id, label: `YouTube (${id})` };
             }
 
-            // 2. Verificar Twitch URL
             const twitchRegex = /(?:https?:\/\/)?(?:www\.|m\.)?twitch\.tv\/([a-zA-Z0-9_]{3,25})(?:\/.*)?$/i;
             const twitchMatch = input.match(twitchRegex);
             if (twitchMatch && twitchMatch[1]) {
@@ -270,38 +332,35 @@
                 return { platform: 'twitch', channel: ch, label: ch };
             }
 
-            if (/^[a-zA-Z0-9_-]{11}$/.test(input) && (input.includes('-') || (input.includes('_') && /[A-Z]/.test(input) && /[0-9]/.test(input)))) {
-                return { platform: 'youtube', channel: input, label: `YouTube (${input})` };
-            }
-
             const cleanChannel = input.replace(/^@/, '').toLowerCase();
             if (/^[a-zA-Z0-9_]{2,25}$/.test(cleanChannel)) {
                 return { platform: 'twitch', channel: cleanChannel, label: cleanChannel };
             }
-
             return null;
         }
 
-        // ==========================================
-        // GESTÃO DE CANAIS (SEM RELOAD NOS OUTROS)
-        // ==========================================
-        function handleAddStream(e) {
+        function handleAddStream(e, isMobile = false) {
             e.preventDefault();
-            const inputEl = document.getElementById('streamInput');
+            const inputEl = document.getElementById(isMobile ? 'streamInputMobile' : 'streamInputDesktop');
             const parsed = parseStreamInput(inputEl.value);
 
             if (!parsed) {
-                showToast('Formato inválido. Usa um canal Twitch ou link/ID YouTube.');
+                showToast('Formato inválido. Usa canal Twitch ou link YouTube.');
                 return;
             }
 
             addStream(parsed.platform, parsed.channel, parsed.label);
             inputEl.value = '';
+            if (isMobile) document.getElementById('mobileAddBar').classList.add('hidden');
+        }
+
+        function toggleMobileAddBar() {
+            const bar = document.getElementById('mobileAddBar');
+            bar.classList.toggle('hidden');
         }
 
         function quickAdd(platform, channel) {
-            const label = platform === 'youtube' ? `YouTube (${channel})` : channel;
-            addStream(platform, channel, label);
+            addStream(platform, channel, platform === 'youtube' ? `YouTube (${channel})` : channel);
         }
 
         function loadDemoStreams() {
@@ -310,9 +369,8 @@
         }
 
         function addStream(platform, channel, label) {
-            const exists = streams.some(s => s.platform === platform && s.channel.toLowerCase() === channel.toLowerCase());
-            if (exists) {
-                showToast(`O canal "${label}" já está na grelha!`);
+            if (streams.some(s => s.platform === platform && s.channel.toLowerCase() === channel.toLowerCase())) {
+                showToast(`O canal "${label}" já está aberto!`);
                 return;
             }
 
@@ -320,13 +378,12 @@
                 id: 'stream_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
                 platform,
                 channel,
-                label: label || channel
+                label: label || channel,
+                muted: false
             };
 
             streams.push(newStream);
-            if (!activeChatStreamId) {
-                activeChatStreamId = newStream.id;
-            }
+            if (!activeChatStreamId) activeChatStreamId = newStream.id;
 
             appendStreamCardToDOM(newStream);
             updateGridLayout();
@@ -336,15 +393,12 @@
         }
 
         function removeStream(id) {
-            if (expandedStreamId === id) {
-                expandedStreamId = null;
-            }
+            if (expandedStreamId === id) expandedStreamId = null;
+            if (audioSoloId === id) audioSoloId = null;
             streams = streams.filter(s => s.id !== id);
             
             const cardEl = document.getElementById(`card_${id}`);
-            if (cardEl) {
-                cardEl.remove();
-            }
+            if (cardEl) cardEl.remove();
 
             if (activeChatStreamId === id) {
                 activeChatStreamId = streams.length > 0 ? streams[0].id : null;
@@ -358,10 +412,10 @@
         function reloadStream(id) {
             const iframe = document.getElementById(`iframe_${id}`);
             if (iframe) {
-                const currentSrc = iframe.src;
+                const src = iframe.src;
                 iframe.src = '';
-                setTimeout(() => { iframe.src = currentSrc; }, 60);
-                showToast('A recarregar transmissão...');
+                setTimeout(() => { iframe.src = src; }, 60);
+                showToast('A recarregar stream...');
             }
         }
 
@@ -370,112 +424,186 @@
             streams = [];
             expandedStreamId = null;
             activeChatStreamId = null;
+            audioSoloId = null;
 
-            const gridEl = document.getElementById('streamsGrid');
-            Array.from(gridEl.querySelectorAll('.stream-card')).forEach(el => el.remove());
-
+            document.getElementById('streamsGrid').querySelectorAll('.stream-card').forEach(el => el.remove());
             updateGridLayout();
             updateURLParams();
             updateChatSelector();
             showToast('Todos os canais foram removidos.');
         }
 
-        // ==========================================
-        // GRELHA DINÂMICA E CRIAÇÃO INCREMENTAL DE CARTÕES
-        // ==========================================
+        // ==================== ÁUDIO INTELIGENTE ====================
+        function toggleAudioSolo(id) {
+            if (audioSoloId === id) {
+                audioSoloId = null;
+                showToast('Áudio normal em todas as streams.');
+            } else {
+                audioSoloId = id;
+                showToast('Modo Foco de Áudio Ativo nesta stream!');
+            }
+            refreshStreamAudioStates();
+        }
+
+        function muteAllStreams() {
+            streams.forEach(s => s.muted = true);
+            audioSoloId = 'NONE';
+            showToast('Todas as streams silenciadas.');
+            refreshStreamAudioStates();
+        }
+
+        function refreshStreamAudioStates() {
+            streams.forEach(s => {
+                const iframe = document.getElementById(`iframe_${s.id}`);
+                const card = document.getElementById(`card_${s.id}`);
+                if (!iframe || !card) return;
+
+                let shouldMute = s.muted;
+                if (audioSoloId === 'NONE') shouldMute = true;
+                else if (audioSoloId !== null) shouldMute = (s.id !== audioSoloId);
+
+                // Atualizar iframe src parâmetro de áudio
+                let base = s.platform === 'twitch' 
+                    ? `https://player.twitch.tv/?channel=${encodeURIComponent(s.channel)}&${getTwitchParents()}&autoplay=true&muted=${shouldMute}`
+                    : `https://www.youtube.com/embed/${encodeURIComponent(s.channel)}?autoplay=1&mute=${shouldMute ? 1 : 0}&rel=0`;
+                
+                if (iframe.src !== base) {
+                    iframe.src = base;
+                }
+
+                // Doutrina visual de áudio ativo
+                if (audioSoloId === s.id) {
+                    card.classList.add('ring-2', 'ring-purple-500');
+                } else {
+                    card.classList.remove('ring-2', 'ring-purple-500');
+                }
+            });
+        }
+
+        // ==================== PERFIS LOCALSTORAGE ====================
+        function toggleProfilesMenu() {
+            const dropdown = document.getElementById('profilesDropdown');
+            dropdown.classList.toggle('hidden');
+            if (!dropdown.classList.contains('hidden')) loadProfilesList();
+        }
+
+        function getSavedProfiles() {
+            try {
+                return JSON.parse(localStorage.getItem('criscloud_profiles') || '{}');
+            } catch (e) { return {}; }
+        }
+
+        function saveCurrentProfile(e) {
+            e.preventDefault();
+            const input = document.getElementById('profileNameInput');
+            const name = input.value.trim();
+            if (!name || streams.length === 0) {
+                showToast('Insere um nome e tem pelo menos 1 stream aberta.');
+                return;
+            }
+
+            const profiles = getSavedProfiles();
+            profiles[name] = streams.map(s => ({ platform: s.platform, channel: s.channel, label: s.label }));
+            localStorage.setItem('criscloud_profiles', JSON.stringify(profiles));
+            input.value = '';
+            loadProfilesList();
+            showToast(`Perfil "${name}" guardado com sucesso!`);
+        }
+
+        function loadProfilesList() {
+            const listEl = document.getElementById('profilesList');
+            const profiles = getSavedProfiles();
+            const keys = Object.keys(profiles);
+
+            if (keys.length === 0) {
+                listEl.innerHTML = '<p class="text-zinc-400 text-center py-2">Sem perfis guardados.</p>';
+                return;
+            }
+
+            listEl.innerHTML = keys.map(name => `
+                <div class="flex items-center justify-between bg-zinc-100 dark:bg-zinc-950 px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800">
+                    <span class="font-medium truncate cursor-pointer hover:text-purple-500" onclick="applyProfile('${escapeHTML(name)}')">${escapeHTML(name)} (${profiles[name].length})</span>
+                    <div class="flex items-center gap-1">
+                        <button onclick="applyProfile('${escapeHTML(name)}')" class="text-purple-500 hover:underline px-1">Carregar</button>
+                        <button onclick="deleteProfile('${escapeHTML(name)}')" class="text-rose-500 hover:text-rose-400 px-1">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function applyProfile(name) {
+            const profiles = getSavedProfiles();
+            if (!profiles[name]) return;
+
+            clearAllStreams();
+            profiles[name].forEach(s => addStream(s.platform, s.channel, s.label));
+            toggleProfilesMenu();
+            showToast(`Perfil "${name}" carregado!`);
+        }
+
+        function deleteProfile(name) {
+            const profiles = getSavedProfiles();
+            delete profiles[name];
+            localStorage.setItem('criscloud_profiles', JSON.stringify(profiles));
+            loadProfilesList();
+            showToast(`Perfil "${name}" removido.`);
+        }
+
+        // ==================== GRELHA ====================
         function calculateGridDimensions(count) {
             if (count <= 1) return { cols: 1, rows: 1 };
             if (count === 2) return { cols: 2, rows: 1 };
             if (count <= 4) return { cols: 2, rows: 2 };
             if (count <= 6) return { cols: 3, rows: 2 };
-            if (count <= 9) return { cols: 3, rows: 3 };
             const cols = Math.ceil(Math.sqrt(count));
             const rows = Math.ceil(count / cols);
             return { cols, rows };
         }
 
-        function getEmbedURL(stream) {
-            if (stream.platform === 'twitch') {
-                return `https://player.twitch.tv/?channel=${encodeURIComponent(stream.channel)}&${getTwitchParents()}&autoplay=true&muted=false`;
-            } else {
-                return `https://www.youtube.com/embed/${encodeURIComponent(stream.channel)}?autoplay=1&rel=0&modestbranding=1`;
-            }
-        }
-
-        function getOriginalURL(stream) {
-            if (stream.platform === 'twitch') {
-                return `https://www.twitch.tv/${encodeURIComponent(stream.channel)}`;
-            } else {
-                return `https://www.youtube.com/watch?v=${encodeURIComponent(stream.channel)}`;
-            }
-        }
-
         function appendStreamCardToDOM(stream) {
             const gridEl = document.getElementById('streamsGrid');
             const isTwitch = stream.platform === 'twitch';
-            const badgeColor = isTwitch
-                ? 'bg-purple-500/20 text-purple-300 border-purple-500/30'
-                : 'bg-red-500/20 text-red-300 border-red-500/30';
-            const platformName = isTwitch ? 'Twitch' : 'YouTube';
-            const isExpanded = expandedStreamId === stream.id;
-
+            const badgeColor = isTwitch ? 'bg-purple-500/20 text-purple-600 dark:text-purple-300 border-purple-500/30' : 'bg-red-500/20 text-red-600 dark:text-red-300 border-red-500/30';
+            
             const card = document.createElement('div');
             card.id = `card_${stream.id}`;
-            card.className = `stream-card bg-darkpanel border border-darkborder rounded-lg overflow-hidden flex flex-col w-full h-full shadow-lg transition-all ${isExpanded ? 'stream-expanded' : ''}`;
+            card.className = `stream-card bg-white dark:bg-darkpanel border border-zinc-200 dark:border-darkborder rounded-lg overflow-hidden flex flex-col w-full h-full shadow-md transition-all ${expandedStreamId === stream.id ? 'stream-expanded' : ''}`;
 
             card.innerHTML = `
-                <!-- Barra Superior do Painel -->
-                <div onclick="toggleExpandStream('${stream.id}')" title="Clica para expandir/restaurar esta stream"
-                    class="h-8 bg-zinc-900/95 hover:bg-zinc-800/95 border-b border-darkborder px-2.5 flex items-center justify-between gap-2 cursor-pointer shrink-0 transition">
-                    
+                <div onclick="toggleExpandStream('${stream.id}')" class="h-8 bg-zinc-100 dark:bg-zinc-900/95 hover:bg-zinc-200 dark:hover:bg-zinc-800 border-b border-zinc-200 dark:border-darkborder px-2.5 flex items-center justify-between gap-2 cursor-pointer shrink-0 transition">
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${badgeColor} shrink-0">
-                            ${platformName}
+                            ${isTwitch ? 'Twitch' : 'YouTube'}
                         </span>
-                        <span class="text-xs font-semibold text-zinc-100 truncate">
-                            ${escapeHTML(stream.label)}
-                        </span>
+                        <span class="text-xs font-semibold truncate">${escapeHTML(stream.label)}</span>
                     </div>
-
                     <div class="flex items-center gap-1 shrink-0" onclick="event.stopPropagation()">
-                        <button onclick="openStreamChat('${stream.id}')" title="Abrir Chat deste canal"
-                            class="p-1 text-zinc-400 hover:text-violet-400 hover:bg-zinc-700/70 rounded transition cursor-pointer">
+                        <button onclick="toggleAudioSolo('${stream.id}')" title="Focar Áudio (Solo)" class="p-1 text-zinc-400 hover:text-purple-500 rounded cursor-pointer">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                        </button>
+                        <button onclick="openStreamChat('${stream.id}')" title="Abrir Chat" class="p-1 text-zinc-400 hover:text-purple-500 rounded cursor-pointer">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
                         </button>
-
-                        <button onclick="reloadStream('${stream.id}')" title="Recarregar Stream"
-                            class="p-1 text-zinc-400 hover:text-sky-400 hover:bg-zinc-700/70 rounded transition cursor-pointer">
+                        <button onclick="reloadStream('${stream.id}')" title="Recarregar" class="p-1 text-zinc-400 hover:text-sky-500 rounded cursor-pointer">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                         </button>
-
-                        <a href="${getOriginalURL(stream)}" target="_blank" rel="noopener noreferrer" title="Abrir na plataforma original"
-                            class="p-1 text-zinc-400 hover:text-emerald-400 hover:bg-zinc-700/70 rounded transition cursor-pointer">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                        </a>
-
-                        <button onclick="toggleExpandStream('${stream.id}')" title="Expandir/Restaurar Ecrã Inteiro (ESC)"
-                            class="p-1 text-zinc-400 hover:text-indigo-400 hover:bg-zinc-700/70 rounded transition cursor-pointer">
+                        <button onclick="toggleExpandStream('${stream.id}')" title="Expandir" class="p-1 text-zinc-400 hover:text-indigo-500 rounded cursor-pointer">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
                         </button>
-
-                        <button onclick="removeStream('${stream.id}')" title="Fechar painel"
-                            class="p-1 text-zinc-400 hover:text-rose-400 hover:bg-rose-500/20 rounded transition cursor-pointer">
+                        <button onclick="removeStream('${stream.id}')" title="Fechar" class="p-1 text-zinc-400 hover:text-rose-500 rounded cursor-pointer">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                         </button>
                     </div>
                 </div>
-
-                <!-- Contentor de Vídeo -->
                 <div class="relative flex-1 w-full h-full bg-black">
                     <iframe id="iframe_${stream.id}"
-                        src="${getEmbedURL(stream)}"
+                        src="${isTwitch ? `https://player.twitch.tv/?channel=${encodeURIComponent(stream.channel)}&${getTwitchParents()}&autoplay=true&muted=false` : `https://www.youtube.com/embed/${encodeURIComponent(stream.channel)}?autoplay=1&rel=0`}"
                         class="w-full h-full border-0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                         allowfullscreen>
                     </iframe>
                 </div>
             `;
-
             gridEl.appendChild(card);
         }
 
@@ -492,7 +620,6 @@
             }
 
             emptyState.classList.add('hidden');
-
             if (layoutMode === 'spotlight' && streams.length > 1) {
                 gridEl.classList.add('layout-spotlight');
                 gridEl.style.gridTemplateColumns = '';
@@ -500,74 +627,30 @@
             } else {
                 gridEl.classList.remove('layout-spotlight');
                 const { cols, rows } = calculateGridDimensions(streams.length);
-                if (window.innerWidth < 640 && streams.length > 1) {
-                    gridEl.style.gridTemplateColumns = '1fr';
-                    gridEl.style.gridTemplateRows = `repeat(${streams.length}, minmax(240px, 1fr))`;
-                    gridEl.classList.remove('overflow-hidden');
-                    gridEl.classList.add('overflow-y-auto');
-                } else {
-                    gridEl.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
-                    gridEl.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
-                    gridEl.classList.add('overflow-hidden');
-                    gridEl.classList.remove('overflow-y-auto');
-                }
+                gridEl.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+                gridEl.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
             }
         }
 
-        window.addEventListener('resize', () => {
-            if (streams.length > 0) updateGridLayout();
-        });
-
-        // ==========================================
-        // EXPANDIR STREAM & TECLA ESC
-        // ==========================================
         function toggleExpandStream(id) {
-            if (expandedStreamId === id) {
-                expandedStreamId = null;
-            } else {
-                expandedStreamId = id;
-                showToast('Modo Ecrã Inteiro ativo. Prime ESC ou clica na barra para voltar.');
-            }
-
+            expandedStreamId = (expandedStreamId === id) ? null : id;
             document.querySelectorAll('.stream-card').forEach(card => {
-                if (card.id === `card_${expandedStreamId}`) {
-                    card.classList.add('stream-expanded');
-                } else {
-                    card.classList.remove('stream-expanded');
-                }
+                if (card.id === `card_${expandedStreamId}`) card.classList.add('stream-expanded');
+                else card.classList.remove('stream-expanded');
             });
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && expandedStreamId) {
-                toggleExpandStream(expandedStreamId);
-            }
-        });
-
-        // ==========================================
-        // ALTERNAR LAYOUT
-        // ==========================================
         function toggleLayout() {
             layoutMode = layoutMode === 'grid' ? 'spotlight' : 'grid';
-            const label = document.getElementById('labelLayout');
-            label.textContent = layoutMode === 'grid' ? 'Grelha' : 'Destaque';
+            document.getElementById('labelLayout').textContent = layoutMode === 'grid' ? 'Grelha' : 'Destaque';
             updateGridLayout();
-            showToast(layoutMode === 'grid' ? 'Layout: Grelha Equilibrada' : 'Layout: Modo Destaque (1º canal em foco)');
+            showToast(layoutMode === 'grid' ? 'Layout: Grelha' : 'Layout: Destaque');
         }
 
-        function toggleAddBar() {
-            const bar = document.getElementById('addBar');
-            bar.classList.toggle('hidden');
-        }
-
-        // ==========================================
-        // PAINEL DE CHAT LATERAL
-        // ==========================================
+        // ==================== CHAT ====================
         function toggleChatSidebar(forceOpen = null) {
             const sidebar = document.getElementById('chatSidebar');
-            const isHidden = sidebar.classList.contains('hidden');
-            const shouldOpen = forceOpen !== null ? forceOpen : isHidden;
-
+            const shouldOpen = forceOpen !== null ? forceOpen : sidebar.classList.contains('hidden');
             if (shouldOpen) {
                 sidebar.classList.remove('hidden');
                 sidebar.classList.add('flex');
@@ -585,15 +668,12 @@
 
         function updateChatSelector() {
             const select = document.getElementById('chatChannelSelect');
-            const previousValue = select.value;
             select.innerHTML = '';
-
             if (streams.length === 0) {
                 select.innerHTML = '<option value="">Sem canais ativos...</option>';
                 renderActiveChat();
                 return;
             }
-
             streams.forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s.id;
@@ -601,114 +681,54 @@
                 if (s.id === activeChatStreamId) opt.selected = true;
                 select.appendChild(opt);
             });
-
-            if (!activeChatStreamId && streams.length > 0) {
-                activeChatStreamId = streams[0].id;
-            }
-
-            if (previousValue !== activeChatStreamId || document.getElementById('chatContainer').querySelector('iframe') === null) {
-                renderActiveChat();
-            }
+            renderActiveChat();
         }
 
         function renderActiveChat() {
             const select = document.getElementById('chatChannelSelect');
             const container = document.getElementById('chatContainer');
-            const selectedId = select.value;
-            activeChatStreamId = selectedId;
-
-            const stream = streams.find(s => s.id === selectedId);
+            const stream = streams.find(s => s.id === select.value);
             if (!stream) {
-                container.innerHTML = '<p class="text-zinc-500 text-xs p-4 text-center">Adiciona um canal para acompanhar o chat em direto.</p>';
+                container.innerHTML = '<p class="text-zinc-400 text-xs p-4 text-center">Seleciona um canal para abrir o chat.</p>';
                 return;
             }
-
-            let chatSrc = '';
-            if (stream.platform === 'twitch') {
-                chatSrc = `https://www.twitch.tv/embed/${encodeURIComponent(stream.channel)}/chat?darkpopout&${getTwitchParents()}`;
-            } else {
-                const domain = window.location.hostname || 'localhost';
-                chatSrc = `https://www.youtube.com/live_chat?v=${encodeURIComponent(stream.channel)}&embed_domain=${encodeURIComponent(domain)}&dark_theme=1`;
-            }
-
-            container.innerHTML = `
-                <iframe src="${chatSrc}" class="w-full h-full border-0 bg-darkbg"></iframe>
-            `;
+            const chatSrc = stream.platform === 'twitch'
+                ? `https://www.twitch.tv/embed/${encodeURIComponent(stream.channel)}/chat?darkpopout&${getTwitchParents()}`
+                : `https://www.youtube.com/live_chat?v=${encodeURIComponent(stream.channel)}&embed_domain=${encodeURIComponent(window.location.hostname || 'localhost')}&dark_theme=1`;
+            
+            container.innerHTML = `<iframe src="${chatSrc}" class="w-full h-full border-0"></iframe>`;
         }
 
-        // ==========================================
-        // PARTILHA DE SALA POR URL
-        // ==========================================
+        // ==================== URL E UTILITÁRIOS ====================
         function updateURLParams() {
-            try {
-                const url = new URL(window.location.href);
-                if (streams.length === 0) {
-                    url.searchParams.delete('streams');
-                } else {
-                    const encoded = streams.map(s => `${s.platform === 'twitch' ? 'tw' : 'yt'}:${s.channel}`).join(',');
-                    url.searchParams.set('streams', encoded);
-                }
-                window.history.replaceState({}, '', url);
-            } catch (err) {
-                // Ignorar em ambientes restritos
-            }
+            const url = new URL(window.location.href);
+            if (streams.length === 0) url.searchParams.delete('streams');
+            else url.searchParams.set('streams', streams.map(s => `${s.platform === 'twitch' ? 'tw' : 'yt'}:${s.channel}`).join(','));
+            window.history.replaceState({}, '', url);
         }
 
         function loadFromURLParams() {
-            try {
-                const url = new URL(window.location.href);
-                const param = url.searchParams.get('streams');
-                if (!param) return;
-
-                const items = param.split(',');
-                items.forEach(item => {
-                    const [prefix, channel] = item.split(':');
-                    if (prefix && channel) {
-                        const platform = prefix === 'yt' ? 'youtube' : 'twitch';
-                        const label = platform === 'youtube' ? `YouTube (${channel})` : channel;
-                        const streamObj = {
-                            id: 'stream_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
-                            platform,
-                            channel,
-                            label
-                        };
-                        streams.push(streamObj);
-                        appendStreamCardToDOM(streamObj);
-                    }
-                });
-
-                if (streams.length > 0) {
-                    activeChatStreamId = streams[0].id;
-                    updateGridLayout();
-                    updateChatSelector();
+            const param = new URL(window.location.href).searchParams.get('streams');
+            if (!param) return;
+            param.split(',').forEach(item => {
+                const [prefix, channel] = item.split(':');
+                if (prefix && channel) {
+                    addStream(prefix === 'yt' ? 'youtube' : 'twitch', channel, channel);
                 }
-            } catch (err) {
-                console.error('Erro ao ler parâmetros da URL:', err);
-            }
+            });
         }
 
         function shareRoom() {
             updateURLParams();
-            const shareURL = window.location.href;
-            navigator.clipboard.writeText(shareURL).then(() => {
-                showToast('Link da WatchParty copiado para a área de transferência!');
-            }).catch(() => {
-                prompt('Copia o link da tua sala WatchParty:', shareURL);
-            });
+            navigator.clipboard.writeText(window.location.href).then(() => showToast('Link da WatchParty copiado!'));
         }
 
-        // ==========================================
-        // UTILITÁRIOS (TOAST & ESCAPE HTML)
-        // ==========================================
         let toastTimeout;
         function showToast(message) {
             const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            toastMsg.textContent = message;
-
+            document.getElementById('toastMsg').textContent = message;
             toast.classList.remove('opacity-0', 'translate-y-2');
             toast.classList.add('opacity-100', 'translate-y-0');
-
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('opacity-100', 'translate-y-0');
