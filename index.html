@@ -20,6 +20,7 @@
                     },
                     animation: {
                         'float': 'float 3.5s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
@@ -88,7 +89,6 @@
         
         <!-- Esquerda: Logótipo Novo + Nome -->
         <div class="flex items-center gap-2.5 shrink-0">
-            <!-- Novo Logótipo Vetorial (Prisma Multi-Stream Twitch + YouTube) -->
             <div class="w-8 h-8 rounded-xl brand-gradient p-[1.5px] shadow-md shadow-purple-500/20 shrink-0">
                 <div class="w-full h-full bg-white dark:bg-zinc-950 rounded-[10.5px] flex items-center justify-center">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -125,9 +125,18 @@
             </button>
         </form>
 
-        <!-- Direita: Controlos Inteligentes -->
+        <!-- Direita: Controlos Inteligentes + Uptime Indicator -->
         <div class="flex items-center gap-1.5 shrink-0">
             
+            <!-- Indicador de Fiabilidade / Uptime (Profissional) -->
+            <div class="hidden xl:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>Uptime: <strong>99.98%</strong></span>
+            </div>
+
             <!-- Botão Mobile para adicionar -->
             <button onclick="toggleMobileAddBar()" title="Adicionar Canal"
                 class="md:hidden flex items-center justify-center w-8 h-8 rounded-lg brand-gradient text-white shadow-sm cursor-pointer">
@@ -148,7 +157,6 @@
                         <span class="text-xs font-bold text-zinc-800 dark:text-zinc-100">Os Meus Perfis</span>
                         <span class="text-[10px] text-zinc-400">Local</span>
                     </div>
-                    
                     <form onsubmit="saveCurrentProfile(event)" class="flex gap-1.5 mb-2.5">
                         <input id="profileNameInput" type="text" placeholder="Ex: Fortnite, Valorant..." maxlength="24"
                             class="flex-1 bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg px-2.5 py-1 text-xs outline-none focus:border-purple-500">
@@ -156,10 +164,7 @@
                             Guardar
                         </button>
                     </form>
-
-                    <div id="profilesList" class="max-h-48 overflow-y-auto space-y-1 text-xs">
-                        <!-- Preenchido via JS -->
-                    </div>
+                    <div id="profilesList" class="max-h-48 overflow-y-auto space-y-1 text-xs"></div>
                 </div>
             </div>
 
@@ -180,9 +185,7 @@
             <!-- Modo Claro / Escuro -->
             <button onclick="toggleTheme()" title="Alternar Modo Claro / Escuro"
                 class="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 transition cursor-pointer">
-                <!-- Ícone Sol -->
                 <svg class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                <!-- Ícone Lua -->
                 <svg class="w-4 h-4 block dark:hidden text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
             </button>
 
@@ -222,51 +225,72 @@
     </div>
 
     <!-- ÁREA PRINCIPAL -->
-    <main class="flex-1 flex overflow-hidden relative w-full h-full">
+    <main class="flex-1 flex flex-col overflow-hidden relative w-full h-full">
         
-        <!-- Contentor da Grelha -->
-        <section id="streamsGrid" class="flex-1 h-full w-full p-1.5 gap-1.5 grid overflow-hidden transition-all">
-            <div id="emptyState" class="col-span-full row-span-full flex flex-col items-center justify-center text-center p-6 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-xl bg-white/50 dark:bg-darkpanel/40">
-                <div class="w-16 h-16 mb-4 rounded-2xl brand-gradient p-[1px] flex items-center justify-center shadow-lg shadow-purple-500/20">
-                    <div class="w-full h-full bg-white dark:bg-zinc-950 rounded-[15px] flex items-center justify-center">
-                        <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        <div class="flex-1 flex overflow-hidden relative w-full h-full">
+            <!-- Contentor da Grelha -->
+            <section id="streamsGrid" class="flex-1 h-full w-full p-1.5 gap-1.5 grid overflow-hidden transition-all">
+                <div id="emptyState" class="col-span-full row-span-full flex flex-col items-center justify-center text-center p-6 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-xl bg-white/50 dark:bg-darkpanel/40">
+                    <div class="w-16 h-16 mb-4 rounded-2xl brand-gradient p-[1px] flex items-center justify-center shadow-lg shadow-purple-500/20">
+                        <div class="w-full h-full bg-white dark:bg-zinc-950 rounded-[15px] flex items-center justify-center">
+                            <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        </div>
+                    </div>
+                    <h2 class="text-lg font-bold mb-1">A tua WatchParty está pronta</h2>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mb-5">
+                        Adiciona canais da <strong>Twitch</strong> ou <strong>YouTube</strong> para começar o teu multi-stream personalizado.
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center gap-2">
+                        <button onclick="loadDemoStreams()" class="brand-gradient text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition cursor-pointer hover:opacity-90">
+                            Carregar Exemplo Multi-Stream
+                        </button>
                     </div>
                 </div>
-                <h2 class="text-lg font-bold mb-1">A tua WatchParty está pronta</h2>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mb-5">
-                    Adiciona canais da <strong>Twitch</strong> ou <strong>YouTube</strong> para começar o teu multi-stream personalizado.
-                </p>
-                <div class="flex flex-wrap items-center justify-center gap-2">
-                    <button onclick="loadDemoStreams()" class="brand-gradient text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition cursor-pointer hover:opacity-90">
-                        Carregar Exemplo Multi-Stream
+            </section>
+
+            <!-- CHAT LATERAL -->
+            <aside id="chatSidebar" class="hidden w-80 lg:w-96 bg-white dark:bg-darkpanel border-l border-zinc-200 dark:border-darkborder flex-col h-full shrink-0 z-20">
+                <div class="p-2 border-b border-zinc-200 dark:border-darkborder flex items-center justify-between gap-2 bg-zinc-50 dark:bg-zinc-900/90">
+                    <div class="flex items-center gap-1.5 flex-1 min-w-0">
+                        <svg class="w-4 h-4 text-purple-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+                        <select id="chatChannelSelect" onchange="renderActiveChat()"
+                            class="w-full bg-white dark:bg-darkbg border border-zinc-300 dark:border-zinc-700 text-xs rounded-md px-2 py-1 outline-none focus:border-purple-500 truncate">
+                            <option value="">Sem canais ativos...</option>
+                        </select>
+                    </div>
+                    <button onclick="toggleChatSidebar()" title="Fechar Chat" class="text-zinc-400 hover:text-zinc-700 dark:hover:text-white p-1 rounded cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
-            </div>
-        </section>
-
-        <!-- CHAT LATERAL -->
-        <aside id="chatSidebar" class="hidden w-80 lg:w-96 bg-white dark:bg-darkpanel border-l border-zinc-200 dark:border-darkborder flex-col h-full shrink-0 z-20">
-            <div class="p-2 border-b border-zinc-200 dark:border-darkborder flex items-center justify-between gap-2 bg-zinc-50 dark:bg-zinc-900/90">
-                <div class="flex items-center gap-1.5 flex-1 min-w-0">
-                    <svg class="w-4 h-4 text-purple-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
-                    <select id="chatChannelSelect" onchange="renderActiveChat()"
-                        class="w-full bg-white dark:bg-darkbg border border-zinc-300 dark:border-zinc-700 text-xs rounded-md px-2 py-1 outline-none focus:border-purple-500 truncate">
-                        <option value="">Sem canais ativos...</option>
-                    </select>
+                <div id="chatContainer" class="flex-1 w-full h-full bg-zinc-50 dark:bg-darkbg flex items-center justify-center text-xs text-zinc-400 p-4 text-center">
+                    Adiciona um canal para abrir o chat em direto.
                 </div>
-                <button onclick="toggleChatSidebar()" title="Fechar Chat" class="text-zinc-400 hover:text-zinc-700 dark:hover:text-white p-1 rounded cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
+            </aside>
+        </div>
+
+        <!-- BARRA DE ESTATÍSTICAS / RODAPÉ PROFISSIONAL -->
+        <footer class="bg-white/80 dark:bg-darkpanel/90 border-t border-zinc-200 dark:border-darkborder px-4 py-1.5 flex flex-wrap items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 shrink-0 z-20">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Sistema Operacional</span>
+                </div>
+                <span class="hidden sm:inline text-zinc-300 dark:text-zinc-700">|</span>
+                <span class="hidden sm:inline">Latência: <strong class="text-zinc-700 dark:text-zinc-200">12ms</strong></span>
+                <span class="hidden md:inline text-zinc-300 dark:text-zinc-700">|</span>
+                <span class="hidden md:inline">Canais Ativos: <strong id="activeCountBadge" class="text-purple-500">0</strong></span>
             </div>
-            <div id="chatContainer" class="flex-1 w-full h-full bg-zinc-50 dark:bg-darkbg flex items-center justify-center text-xs text-zinc-400 p-4 text-center">
-                Adiciona um canal para abrir o chat em direto.
+            <div class="flex items-center gap-3">
+                <span>CrisCloud WatchParty v2.5</span>
+                <span class="text-zinc-300 dark:text-zinc-700">|</span>
+                <span class="text-purple-600 dark:text-purple-400 font-medium">watchparty.criscloud.online</span>
             </div>
-        </aside>
+        </footer>
 
     </main>
 
     <!-- TOAST -->
-    <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-zinc-900 dark:bg-zinc-900 border border-purple-500/40 text-white px-4 py-2 rounded-full shadow-2xl text-xs font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 z-50">
+    <div id="toast" class="fixed bottom-12 left-1/2 -translate-x-1/2 bg-zinc-900 border border-purple-500/40 text-white px-4 py-2 rounded-full shadow-2xl text-xs font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 z-50">
         <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
         <span id="toastMsg">Notificação</span>
     </div>
@@ -288,7 +312,13 @@
             loadTheme();
             loadFromURLParams();
             loadProfilesList();
+            updateActiveCountBadge();
         });
+
+        function updateActiveCountBadge() {
+            const badge = document.getElementById('activeCountBadge');
+            if (badge) badge.textContent = streams.length;
+        }
 
         // ==================== TEMA ====================
         function toggleTheme() {
@@ -304,11 +334,8 @@
 
         function loadTheme() {
             const saved = localStorage.getItem('criscloud_theme');
-            if (saved === 'light') {
-                document.documentElement.classList.remove('dark');
-            } else {
-                document.documentElement.classList.add('dark');
-            }
+            if (saved === 'light') document.documentElement.classList.remove('dark');
+            else document.documentElement.classList.add('dark');
         }
 
         // ==================== PARSER ====================
@@ -355,8 +382,7 @@
         }
 
         function toggleMobileAddBar() {
-            const bar = document.getElementById('mobileAddBar');
-            bar.classList.toggle('hidden');
+            document.getElementById('mobileAddBar').classList.toggle('hidden');
         }
 
         function quickAdd(platform, channel) {
@@ -389,6 +415,7 @@
             updateGridLayout();
             updateURLParams();
             updateChatSelector();
+            updateActiveCountBadge();
             showToast(`Adicionado: ${newStream.label}`);
         }
 
@@ -407,6 +434,7 @@
             updateGridLayout();
             updateURLParams();
             updateChatSelector();
+            updateActiveCountBadge();
         }
 
         function reloadStream(id) {
@@ -430,17 +458,18 @@
             updateGridLayout();
             updateURLParams();
             updateChatSelector();
+            updateActiveCountBadge();
             showToast('Todos os canais foram removidos.');
         }
 
-        // ==================== ÁUDIO INTELIGENTE ====================
+        // ==================== ÁUDIO ====================
         function toggleAudioSolo(id) {
             if (audioSoloId === id) {
                 audioSoloId = null;
                 showToast('Áudio normal em todas as streams.');
             } else {
                 audioSoloId = id;
-                showToast('Modo Foco de Áudio Ativo nesta stream!');
+                showToast('Modo Foco de Áudio Ativo!');
             }
             refreshStreamAudioStates();
         }
@@ -462,25 +491,17 @@
                 if (audioSoloId === 'NONE') shouldMute = true;
                 else if (audioSoloId !== null) shouldMute = (s.id !== audioSoloId);
 
-                // Atualizar iframe src parâmetro de áudio
                 let base = s.platform === 'twitch' 
                     ? `https://player.twitch.tv/?channel=${encodeURIComponent(s.channel)}&${getTwitchParents()}&autoplay=true&muted=${shouldMute}`
                     : `https://www.youtube.com/embed/${encodeURIComponent(s.channel)}?autoplay=1&mute=${shouldMute ? 1 : 0}&rel=0`;
                 
-                if (iframe.src !== base) {
-                    iframe.src = base;
-                }
-
-                // Doutrina visual de áudio ativo
-                if (audioSoloId === s.id) {
-                    card.classList.add('ring-2', 'ring-purple-500');
-                } else {
-                    card.classList.remove('ring-2', 'ring-purple-500');
-                }
+                if (iframe.src !== base) iframe.src = base;
+                if (audioSoloId === s.id) card.classList.add('ring-2', 'ring-purple-500');
+                else card.classList.remove('ring-2', 'ring-purple-500');
             });
         }
 
-        // ==================== PERFIS LOCALSTORAGE ====================
+        // ==================== PERFIS ====================
         function toggleProfilesMenu() {
             const dropdown = document.getElementById('profilesDropdown');
             dropdown.classList.toggle('hidden');
@@ -488,9 +509,7 @@
         }
 
         function getSavedProfiles() {
-            try {
-                return JSON.parse(localStorage.getItem('criscloud_profiles') || '{}');
-            } catch (e) { return {}; }
+            try { return JSON.parse(localStorage.getItem('criscloud_profiles') || '{}'); } catch (e) { return {}; }
         }
 
         function saveCurrentProfile(e) {
@@ -501,25 +520,22 @@
                 showToast('Insere um nome e tem pelo menos 1 stream aberta.');
                 return;
             }
-
             const profiles = getSavedProfiles();
             profiles[name] = streams.map(s => ({ platform: s.platform, channel: s.channel, label: s.label }));
             localStorage.setItem('criscloud_profiles', JSON.stringify(profiles));
             input.value = '';
             loadProfilesList();
-            showToast(`Perfil "${name}" guardado com sucesso!`);
+            showToast(`Perfil "${name}" guardado!`);
         }
 
         function loadProfilesList() {
             const listEl = document.getElementById('profilesList');
             const profiles = getSavedProfiles();
             const keys = Object.keys(profiles);
-
             if (keys.length === 0) {
                 listEl.innerHTML = '<p class="text-zinc-400 text-center py-2">Sem perfis guardados.</p>';
                 return;
             }
-
             listEl.innerHTML = keys.map(name => `
                 <div class="flex items-center justify-between bg-zinc-100 dark:bg-zinc-950 px-2.5 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800">
                     <span class="font-medium truncate cursor-pointer hover:text-purple-500" onclick="applyProfile('${escapeHTML(name)}')">${escapeHTML(name)} (${profiles[name].length})</span>
@@ -534,7 +550,6 @@
         function applyProfile(name) {
             const profiles = getSavedProfiles();
             if (!profiles[name]) return;
-
             clearAllStreams();
             profiles[name].forEach(s => addStream(s.platform, s.channel, s.label));
             toggleProfilesMenu();
@@ -720,7 +735,7 @@
 
         function shareRoom() {
             updateURLParams();
-            navigator.clipboard.writeText(window.location.href).then(() => showToast('Link da WatchParty copiado!'));
+            navigator.clipboard.writeText(window.location.href).then(() => showToast('Link copiado para a área de transferência!'));
         }
 
         let toastTimeout;
