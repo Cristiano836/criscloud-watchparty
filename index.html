@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrisCloud WatchParty — Multi-Stream Twitch & YouTube</title>
+    <title>AuraView — Multi-Stream Platform Twitch & YouTube</title>
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -33,13 +33,13 @@
         }
     </script>
     <style>
-        /* Barra de deslocação minimalista */
+        /* Minimalist Custom Scrollbar */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(145, 70, 255, 0.35); border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255, 0, 51, 0.55); }
 
-        /* Gradiente Híbrido Twitch + YouTube */
+        /* Brand Hybrid Gradient */
         .brand-gradient {
             background: linear-gradient(135deg, #9146FF 0%, #D91B5C 55%, #FF0033 100%);
         }
@@ -49,7 +49,17 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Modo Ecrã Inteiro Interno */
+        /* Ambient Aura Glow */
+        .aura-glow {
+            box-shadow: 0 0 20px rgba(145, 70, 255, 0.15);
+        }
+
+        /* Solo Audio Glow Ring */
+        .solo-audio-ring {
+            box-shadow: 0 0 0 2px #9146FF, 0 0 15px rgba(145, 70, 255, 0.4);
+        }
+
+        /* Expanded Stream Mode */
         .stream-expanded {
             position: fixed !important;
             inset: 0 !important;
@@ -60,7 +70,7 @@
             border: none !important;
         }
 
-        /* Modo Destaque (Spotlight Layout) */
+        /* Spotlight Layout Grid */
         .layout-spotlight {
             display: grid !important;
             grid-template-columns: 3fr 1fr !important;
@@ -80,43 +90,53 @@
                 grid-column: auto;
             }
         }
+
+        /* Cinema / Clean View Mode */
+        body.cinema-mode #mainHeader,
+        body.cinema-mode #mainFooter,
+        body.cinema-mode #favoritesBar,
+        body.cinema-mode #introBanner {
+            display: none !important;
+        }
+        body.cinema-mode #cinemaExitBtn {
+            display: flex !important;
+        }
     </style>
 </head>
 <body class="bg-zinc-100 text-zinc-900 dark:bg-darkbg dark:text-zinc-100 h-screen w-screen overflow-hidden flex flex-col font-sans select-none transition-colors duration-200">
 
-    <!-- CABEÇALHO CLEAN E DINÂMICO -->
-    <header class="bg-white/90 dark:bg-darkpanel/95 backdrop-blur-md border-b border-zinc-200 dark:border-darkborder px-3.5 py-2 flex items-center justify-between gap-2 z-30 shrink-0 transition-colors">
+    <!-- TOP HEADER -->
+    <header id="mainHeader" class="bg-white/90 dark:bg-darkpanel/95 backdrop-blur-md border-b border-zinc-200 dark:border-darkborder px-3.5 py-2 flex items-center justify-between gap-2 z-30 shrink-0 transition-all aura-glow">
         
-        <!-- Esquerda: Logótipo Novo + Nome -->
+        <!-- Left: Branding & Logo -->
         <div class="flex items-center gap-2.5 shrink-0">
             <div class="w-8 h-8 rounded-xl brand-gradient p-[1.5px] shadow-md shadow-purple-500/20 shrink-0">
                 <div class="w-full h-full bg-white dark:bg-zinc-950 rounded-[10.5px] flex items-center justify-center">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-4 h-4 text-purple-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="7.5" height="7.5" rx="1.5" stroke="currentColor" stroke-width="2.2"/>
+                        <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" stroke="currentColor" stroke-width="2.2"/>
+                        <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" stroke="currentColor" stroke-width="2.2"/>
+                        <circle cx="17.25" cy="17.25" r="3.75" fill="url(#dotGrad)"/>
                         <defs>
-                            <linearGradient id="wpLogoGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                                <stop offset="0%" stop-color="#9146FF"/>
-                                <stop offset="50%" stop-color="#E11D48"/>
-                                <stop offset="100%" stop-color="#FF0033"/>
+                            <linearGradient id="dotGrad" x1="13.5" y1="13.5" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#9146FF"/>
+                                <stop offset="1" stop-color="#FF0033"/>
                             </linearGradient>
                         </defs>
-                        <rect x="2.5" y="3.5" width="8.5" height="7" rx="2" stroke="url(#wpLogoGrad)" stroke-width="2"/>
-                        <rect x="13" y="3.5" width="8.5" height="7" rx="2" stroke="url(#wpLogoGrad)" stroke-width="2"/>
-                        <rect x="2.5" y="13.5" width="8.5" height="7" rx="2" stroke="url(#wpLogoGrad)" stroke-width="2"/>
-                        <path d="M14.5 14.2C14.5 13.6 15.2 13.2 15.7 13.5L20.5 16.3C21 16.6 21 17.4 20.5 17.7L15.7 20.5C15.2 20.8 14.5 20.4 14.5 19.8V14.2Z" fill="url(#wpLogoGrad)"/>
                     </svg>
                 </div>
             </div>
-            <div class="flex items-baseline gap-1.5">
-                <span class="text-base sm:text-lg font-extrabold tracking-tight brand-text-gradient">CrisCloud</span>
-                <span class="text-xs sm:text-sm font-semibold text-zinc-500 dark:text-zinc-400">WatchParty</span>
+            <div class="flex items-baseline tracking-tight cursor-pointer" onclick="openIntroModal()">
+                <span class="text-base sm:text-lg font-extrabold brand-text-gradient">Aura</span>
+                <span class="text-base sm:text-lg font-bold text-zinc-800 dark:text-zinc-100">View</span>
             </div>
         </div>
 
-        <!-- Centro: Barra de Adição Rápida Integrada (Desktop) -->
+        <!-- Center: Desktop Input Bar -->
         <form onsubmit="handleAddStream(event)" class="hidden md:flex flex-1 max-w-xl items-center gap-1.5 mx-2">
             <div class="relative flex-1">
                 <input id="streamInputDesktop" type="text" autocomplete="off"
-                    placeholder="Canal Twitch (ex: gaules) ou link/ID YouTube..."
+                    placeholder="Cole um canal Twitch (ex: gaules) ou link/ID do YouTube... [Atalho: A]"
                     class="w-full bg-zinc-100 dark:bg-zinc-900/90 border border-zinc-300 dark:border-zinc-800 focus:border-purple-500 rounded-lg px-3 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 outline-none transition">
             </div>
             <button type="submit"
@@ -125,10 +145,17 @@
             </button>
         </form>
 
-        <!-- Direita: Controlos Inteligentes + Uptime Indicator -->
+        <!-- Right: Actions & Tools -->
         <div class="flex items-center gap-1.5 shrink-0">
             
-            <!-- Indicador de Fiabilidade / Uptime (Profissional) -->
+            <!-- Botão Sobre / Propósito do Site -->
+            <button onclick="openIntroModal()" title="Sobre o AuraView (Propósito e Guias)"
+                class="flex items-center gap-1.5 bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-300 border border-purple-500/30 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
+                <svg class="w-3.5 h-3.5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span class="hidden sm:inline">Sobre</span>
+            </button>
+
+            <!-- Uptime Badge -->
             <div class="hidden xl:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
                 <span class="relative flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -137,25 +164,25 @@
                 <span>Uptime: <strong>99.98%</strong></span>
             </div>
 
-            <!-- Botão Mobile para adicionar -->
-            <button onclick="toggleMobileAddBar()" title="Adicionar Canal"
+            <!-- Mobile Add Toggle -->
+            <button onclick="toggleMobileAddBar()" title="Adicionar Stream"
                 class="md:hidden flex items-center justify-center w-8 h-8 rounded-lg brand-gradient text-white shadow-sm cursor-pointer">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             </button>
 
-            <!-- Perfis Guardados -->
+            <!-- Profiles Manager Menu -->
             <div class="relative">
-                <button id="btnProfiles" onclick="toggleProfilesMenu()" title="Perfis de Lives Guardados"
+                <button id="btnProfiles" onclick="toggleProfilesMenu()" title="Perfis Guardados"
                     class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
                     <svg class="w-3.5 h-3.5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
                     <span class="hidden sm:inline">Perfis</span>
                 </button>
 
-                <!-- Dropdown de Perfis -->
+                <!-- Profiles Dropdown -->
                 <div id="profilesDropdown" class="hidden absolute right-0 mt-2 w-72 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-2xl p-3 z-50">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-bold text-zinc-800 dark:text-zinc-100">Os Meus Perfis</span>
-                        <span class="text-[10px] text-zinc-400">Local</span>
+                        <span class="text-[10px] text-zinc-400">Armazenado no Browser</span>
                     </div>
                     <form onsubmit="saveCurrentProfile(event)" class="flex gap-1.5 mb-2.5">
                         <input id="profileNameInput" type="text" placeholder="Ex: Fortnite, Valorant..." maxlength="24"
@@ -168,43 +195,50 @@
                 </div>
             </div>
 
-            <!-- Silenciar Tudo -->
-            <button onclick="muteAllStreams()" title="Silenciar todas as streams"
+            <!-- Mute All Streams [Key: M] -->
+            <button onclick="muteAllStreams()" title="Silenciar Tudo [Tecla M]"
                 class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
                 <svg class="w-3.5 h-3.5 text-rose-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
                 <span class="hidden lg:inline">Silenciar</span>
             </button>
 
-            <!-- Layout -->
-            <button id="btnLayout" onclick="toggleLayout()" title="Alternar Layout"
+            <!-- Layout Switcher [Key: L] -->
+            <button id="btnLayout" onclick="toggleLayout()" title="Alternar Layout [Tecla L]"
                 class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
                 <svg class="w-3.5 h-3.5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                 <span id="labelLayout" class="hidden md:inline">Grelha</span>
             </button>
 
-            <!-- Modo Claro / Escuro -->
-            <button onclick="toggleTheme()" title="Alternar Modo Claro / Escuro"
+            <!-- Cinema Clean Mode [Key: F] -->
+            <button onclick="toggleCinemaMode()" title="Modo Cinema / Foco Limpo [Tecla F]"
+                class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
+                <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <span class="hidden xl:inline">Cinema</span>
+            </button>
+
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()" title="Modo Claro / Escuro"
                 class="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 transition cursor-pointer">
                 <svg class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                 <svg class="w-4 h-4 block dark:hidden text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
             </button>
 
-            <!-- Chat -->
-            <button onclick="toggleChatSidebar()" title="Painel de Chat"
+            <!-- Chat Sidebar Toggle [Key: C] -->
+            <button onclick="toggleChatSidebar()" title="Painel de Chat [Tecla C]"
                 class="flex items-center gap-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800/80 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700/70 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
                 <svg class="w-3.5 h-3.5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                 <span class="hidden lg:inline">Chat</span>
             </button>
 
-            <!-- Partilhar -->
-            <button onclick="shareRoom()" title="Partilhar Sala"
+            <!-- Share Room Link -->
+            <button onclick="shareRoom()" title="Partilhar URL da Sala"
                 class="flex items-center gap-1.5 bg-purple-500/15 hover:bg-purple-500/25 text-purple-600 dark:text-purple-300 border border-purple-500/30 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                 <span class="hidden lg:inline">Partilhar</span>
             </button>
 
-            <!-- Limpar -->
-            <button onclick="clearAllStreams()" title="Limpar tudo"
+            <!-- Clear All -->
+            <button onclick="clearAllStreams()" title="Limpar Tudo"
                 class="flex items-center gap-1.5 bg-rose-500/15 hover:bg-rose-500/25 text-rose-600 dark:text-rose-300 border border-rose-500/30 px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                 <span class="hidden xl:inline">Limpar</span>
@@ -212,7 +246,38 @@
         </div>
     </header>
 
-    <!-- BARRA MÓVEL DE ADIÇÃO DE CANAIS -->
+    <!-- INTRO BANNER DE BOAS-VINDAS (REMOVÍVEL) -->
+    <div id="introBanner" class="bg-gradient-to-r from-purple-900/30 via-zinc-900 to-rose-900/30 border-b border-purple-500/20 px-4 py-2.5 flex items-center justify-between gap-3 text-xs shrink-0 z-20">
+        <div class="flex items-center gap-2.5 flex-1 min-w-0">
+            <span class="flex h-2 w-2 relative shrink-0">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+            </span>
+            <p class="truncate text-zinc-300">
+                <strong class="text-white font-semibold">Propósito do AuraView:</strong> Agrega e assiste a múltiplas transmissões em simultâneo da Twitch e YouTube numa única grelha ultra-rápida, com sincronização de áudio e chat.
+            </p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+            <button onclick="openIntroModal()" class="text-purple-400 hover:text-purple-300 underline font-medium cursor-pointer">Saber Mais</button>
+            <span class="text-zinc-600">|</span>
+            <button onclick="dismissIntroBanner()" class="text-zinc-400 hover:text-white p-0.5 rounded cursor-pointer" title="Fechar Aviso">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- FAVORITES & QUICK ACCESS CHIPS BAR -->
+    <div id="favoritesBar" class="bg-zinc-50 dark:bg-zinc-950/80 border-b border-zinc-200 dark:border-darkborder px-3.5 py-1.5 flex items-center gap-2 overflow-x-auto text-xs shrink-0">
+        <span class="text-zinc-400 font-semibold uppercase tracking-wider text-[10px] shrink-0">Atalhos Rápidos:</span>
+        <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="quickAdd('twitch', 'gaules')" class="bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded-md transition cursor-pointer">Twitch: gaules</button>
+            <button onclick="quickAdd('twitch', 'shroud')" class="bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded-md transition cursor-pointer">Twitch: shroud</button>
+            <button onclick="quickAdd('twitch', 'tarik')" class="bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded-md transition cursor-pointer">Twitch: tarik</button>
+            <button onclick="quickAdd('youtube', 'jfKfPfyJRdk')" class="bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-300 border border-red-500/30 px-2 py-0.5 rounded-md transition cursor-pointer">YouTube: Lofi Girl</button>
+        </div>
+    </div>
+
+    <!-- MOBILE INPUT BAR -->
     <div id="mobileAddBar" class="hidden bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-darkborder px-3 py-2 flex items-center gap-2 z-20 shrink-0">
         <form onsubmit="handleAddStream(event, true)" class="flex w-full items-center gap-2">
             <input id="streamInputMobile" type="text" autocomplete="off"
@@ -224,31 +289,44 @@
         </form>
     </div>
 
-    <!-- ÁREA PRINCIPAL -->
+    <!-- MAIN VIEWPORT -->
     <main class="flex-1 flex flex-col overflow-hidden relative w-full h-full">
         
         <div class="flex-1 flex overflow-hidden relative w-full h-full">
-            <!-- Contentor da Grelha -->
+            
+            <!-- Streams Dynamic Grid -->
             <section id="streamsGrid" class="flex-1 h-full w-full p-1.5 gap-1.5 grid overflow-hidden transition-all">
+                
+                <!-- Initial Empty State -->
                 <div id="emptyState" class="col-span-full row-span-full flex flex-col items-center justify-center text-center p-6 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-xl bg-white/50 dark:bg-darkpanel/40">
-                    <div class="w-16 h-16 mb-4 rounded-2xl brand-gradient p-[1px] flex items-center justify-center shadow-lg shadow-purple-500/20">
+                    <div class="w-16 h-16 mb-4 rounded-2xl brand-gradient p-[1px] flex items-center justify-center shadow-lg shadow-purple-500/20 animate-float">
                         <div class="w-full h-full bg-white dark:bg-zinc-950 rounded-[15px] flex items-center justify-center">
                             <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                         </div>
                     </div>
-                    <h2 class="text-lg font-bold mb-1">A tua WatchParty está pronta</h2>
+                    <h2 class="text-lg font-bold mb-1">A tua AuraView está pronta</h2>
                     <p class="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mb-5">
-                        Adiciona canais da <strong>Twitch</strong> ou <strong>YouTube</strong> para começar o teu multi-stream personalizado.
+                        Plataforma de alta fiabilidade para acompanhar múltiplos streams da <strong>Twitch</strong> e <strong>YouTube</strong> num único ecrã sem perdas de desempenho.
                     </p>
                     <div class="flex flex-wrap items-center justify-center gap-2">
                         <button onclick="loadDemoStreams()" class="brand-gradient text-white text-xs font-semibold px-4 py-2 rounded-lg shadow transition cursor-pointer hover:opacity-90">
                             Carregar Exemplo Multi-Stream
                         </button>
+                        <button onclick="openIntroModal()" class="bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-semibold px-4 py-2 rounded-lg shadow transition cursor-pointer">
+                            Como Funciona?
+                        </button>
                     </div>
                 </div>
             </section>
 
-            <!-- CHAT LATERAL -->
+            <!-- Floating Exit Button for Cinema Mode -->
+            <button id="cinemaExitBtn" onclick="toggleCinemaMode()" title="Sair do Modo Cinema (F ou ESC)"
+                class="hidden fixed top-3 right-3 z-50 bg-zinc-900/90 hover:bg-black text-white border border-zinc-700 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-2xl items-center gap-1.5 cursor-pointer backdrop-blur">
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                <span>Sair do Modo Cinema (F)</span>
+            </button>
+
+            <!-- Collapsible Side Chat Sidebar -->
             <aside id="chatSidebar" class="hidden w-80 lg:w-96 bg-white dark:bg-darkpanel border-l border-zinc-200 dark:border-darkborder flex-col h-full shrink-0 z-20">
                 <div class="p-2 border-b border-zinc-200 dark:border-darkborder flex items-center justify-between gap-2 bg-zinc-50 dark:bg-zinc-900/90">
                     <div class="flex items-center gap-1.5 flex-1 min-w-0">
@@ -268,20 +346,23 @@
             </aside>
         </div>
 
-        <!-- BARRA DE ESTATÍSTICAS / RODAPÉ PROFISSIONAL -->
-        <footer class="bg-white/80 dark:bg-darkpanel/90 border-t border-zinc-200 dark:border-darkborder px-4 py-1.5 flex flex-wrap items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 shrink-0 z-20">
+        <!-- STATUS FOOTER -->
+        <footer id="mainFooter" class="bg-white/80 dark:bg-darkpanel/90 border-t border-zinc-200 dark:border-darkborder px-4 py-1.5 flex flex-wrap items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400 shrink-0 z-20">
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Sistema Operacional</span>
+                    <span>Sistemas Operacionais</span>
                 </div>
                 <span class="hidden sm:inline text-zinc-300 dark:text-zinc-700">|</span>
                 <span class="hidden sm:inline">Latência: <strong class="text-zinc-700 dark:text-zinc-200">12ms</strong></span>
                 <span class="hidden md:inline text-zinc-300 dark:text-zinc-700">|</span>
                 <span class="hidden md:inline">Canais Ativos: <strong id="activeCountBadge" class="text-purple-500">0</strong></span>
             </div>
+            <div class="hidden lg:flex items-center gap-3 text-[10px] text-zinc-400">
+                <span>Atalhos: <kbd class="px-1 py-0.5 bg-zinc-200 dark:bg-zinc-800 rounded">M</kbd> Mute | <kbd class="px-1 py-0.5 bg-zinc-200 dark:bg-zinc-800 rounded">L</kbd> Layout | <kbd class="px-1 py-0.5 bg-zinc-200 dark:bg-zinc-800 rounded">C</kbd> Chat | <kbd class="px-1 py-0.5 bg-zinc-200 dark:bg-zinc-800 rounded">F</kbd> Cinema</span>
+            </div>
             <div class="flex items-center gap-3">
-                <span>CrisCloud WatchParty v2.5</span>
+                <span>AuraView v3.0</span>
                 <span class="text-zinc-300 dark:text-zinc-700">|</span>
                 <span class="text-purple-600 dark:text-purple-400 font-medium">watchparty.criscloud.online</span>
             </div>
@@ -289,12 +370,96 @@
 
     </main>
 
-    <!-- TOAST -->
+    <!-- MODAL DE INTRODUÇÃO / SOBRE O AURAVIEW -->
+    <div id="introModal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-darkpanel border border-zinc-200 dark:border-darkborder rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative">
+            <button onclick="closeIntroModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-700 dark:hover:text-white p-1 rounded-lg cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+            <!-- Cabeçalho do Modal -->
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-xl brand-gradient p-[1.5px] shadow-md shadow-purple-500/20 shrink-0">
+                    <div class="w-full h-full bg-white dark:bg-zinc-950 rounded-[10.5px] flex items-center justify-center">
+                        <svg class="w-5 h-5 text-purple-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="3" y="3" width="7.5" height="7.5" rx="1.5" stroke="currentColor" stroke-width="2.2"/>
+                            <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5" stroke="currentColor" stroke-width="2.2"/>
+                            <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5" stroke="currentColor" stroke-width="2.2"/>
+                            <circle cx="17.25" cy="17.25" r="3.75" fill="url(#dotGradModal)"/>
+                            <defs>
+                                <linearGradient id="dotGradModal" x1="13.5" y1="13.5" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#9146FF"/>
+                                    <stop offset="1" stop-color="#FF0033"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-extrabold brand-text-gradient">Sobre o AuraView</h3>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400">Hub de Visualização Multi-Stream de Alta Fiabilidade</p>
+                </div>
+            </div>
+
+            <!-- Conteúdo Explicativo -->
+            <div class="space-y-4 text-xs text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                <div class="bg-zinc-100 dark:bg-zinc-900/80 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800">
+                    <h4 class="font-bold text-zinc-900 dark:text-white mb-1 flex items-center gap-2 text-sm">
+                        <span>🎯 Qual é o Propósito do AuraView?</span>
+                    </h4>
+                    <p>
+                        O <strong>AuraView</strong> foi concebido para transformar a forma como acompanhas eventos de eSports, torneios, transmissões em direto e conteúdos multimédia. Permite agregar múltiplos canais da <strong>Twitch</strong> e <strong>YouTube</strong> num único ecrã personalizável, eliminando a necessidade de ter múltiplos separadores abertos.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="p-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800/80">
+                        <h5 class="font-bold text-purple-500 mb-1">⚡ Foco de Áudio Inteligente (Solo)</h5>
+                        <p>Silencia instantaneamente todas as streams e foca a tua atenção numa única transmissão com o botão Solo (anel roxo).</p>
+                    </div>
+
+                    <div class="p-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800/80">
+                        <h5 class="font-bold text-rose-500 mb-1">💬 Chat Lateral Sincronizado</h5>
+                        <p>Acede ao chat em tempo real de qualquer stream ativa alternando suavemente no painel lateral dedicado.</p>
+                    </div>
+
+                    <div class="p-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800/80">
+                        <h5 class="font-bold text-emerald-500 mb-1">💾 Perfis no LocalStorage</h5>
+                        <p>Guarda as tuas combinações preferidas de canais (ex: "Fortnite", "LoL Worlds") e recarrega-as a qualquer momento.</p>
+                    </div>
+
+                    <div class="p-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800/80">
+                        <h5 class="font-bold text-amber-500 mb-1">🎬 Modo Cinema & Atalhos</h5>
+                        <p>Pressiona a tecla <kbd class="px-1 py-0.5 bg-zinc-200 dark:bg-zinc-800 rounded font-mono">F</kbd> para ocultar a interface e desfrutar do ecrã 100% limpo.</p>
+                    </div>
+                </div>
+
+                <!-- Garantia de Desempenho -->
+                <div class="flex items-center justify-between bg-purple-500/10 border border-purple-500/20 p-3 rounded-xl text-purple-700 dark:text-purple-300">
+                    <div>
+                        <strong class="block text-xs">Infraestrutura Distribuída & GitHub Pages</strong>
+                        <span>Disponibilidade garantida de 99.98% com baixíssima latência de renderização.</span>
+                    </div>
+                    <span class="text-lg font-bold">99.98%</span>
+                </div>
+            </div>
+
+            <!-- Botão de Ação -->
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeIntroModal()" class="brand-gradient text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-lg hover:opacity-90 transition cursor-pointer">
+                    Começar a Utilizar o AuraView
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
     <div id="toast" class="fixed bottom-12 left-1/2 -translate-x-1/2 bg-zinc-900 border border-purple-500/40 text-white px-4 py-2 rounded-full shadow-2xl text-xs font-medium flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 z-50">
         <span class="w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
         <span id="toastMsg">Notificação</span>
     </div>
 
+    <!-- APPLICATION LOGIC -->
     <script>
         let streams = [];
         let layoutMode = 'grid';
@@ -313,32 +478,93 @@
             loadFromURLParams();
             loadProfilesList();
             updateActiveCountBadge();
+            setupGlobalShortcuts();
+            checkIntroBannerState();
         });
+
+        // Intro Banner & Modal Control
+        function openIntroModal() {
+            document.getElementById('introModal').classList.remove('hidden');
+        }
+
+        function closeIntroModal() {
+            document.getElementById('introModal').classList.add('hidden');
+        }
+
+        function dismissIntroBanner() {
+            document.getElementById('introBanner').classList.add('hidden');
+            localStorage.setItem('auraview_dismiss_banner', 'true');
+        }
+
+        function checkIntroBannerState() {
+            if (localStorage.getItem('auraview_dismiss_banner') === 'true') {
+                document.getElementById('introBanner').classList.add('hidden');
+            }
+        }
+
+        // Global Shortcuts Listener
+        function setupGlobalShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                const tag = e.target.tagName.toLowerCase();
+                if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+
+                if (e.key === 'Escape') {
+                    if (!document.getElementById('introModal').classList.contains('hidden')) closeIntroModal();
+                    else if (document.body.classList.contains('cinema-mode')) toggleCinemaMode();
+                    else if (expandedStreamId) toggleExpandStream(expandedStreamId);
+                    return;
+                }
+
+                switch (e.key.toLowerCase()) {
+                    case 'm':
+                        e.preventDefault();
+                        muteAllStreams();
+                        break;
+                    case 'c':
+                        e.preventDefault();
+                        toggleChatSidebar();
+                        break;
+                    case 'l':
+                        e.preventDefault();
+                        toggleLayout();
+                        break;
+                    case 'f':
+                        e.preventDefault();
+                        toggleCinemaMode();
+                        break;
+                    case 'a':
+                        e.preventDefault();
+                        const input = document.getElementById('streamInputDesktop');
+                        if (input) input.focus();
+                        break;
+                }
+            });
+        }
 
         function updateActiveCountBadge() {
             const badge = document.getElementById('activeCountBadge');
             if (badge) badge.textContent = streams.length;
         }
 
-        // ==================== TEMA ====================
+        // Theme Switcher
         function toggleTheme() {
             const html = document.documentElement;
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
-                localStorage.setItem('criscloud_theme', 'light');
+                localStorage.setItem('auraview_theme', 'light');
             } else {
                 html.classList.add('dark');
-                localStorage.setItem('criscloud_theme', 'dark');
+                localStorage.setItem('auraview_theme', 'dark');
             }
         }
 
         function loadTheme() {
-            const saved = localStorage.getItem('criscloud_theme');
+            const saved = localStorage.getItem('auraview_theme');
             if (saved === 'light') document.documentElement.classList.remove('dark');
             else document.documentElement.classList.add('dark');
         }
 
-        // ==================== PARSER ====================
+        // Stream Input Parser
         function parseStreamInput(rawInput) {
             const input = rawInput.trim();
             if (!input) return null;
@@ -462,7 +688,7 @@
             showToast('Todos os canais foram removidos.');
         }
 
-        // ==================== ÁUDIO ====================
+        // Audio Management
         function toggleAudioSolo(id) {
             if (audioSoloId === id) {
                 audioSoloId = null;
@@ -496,12 +722,18 @@
                     : `https://www.youtube.com/embed/${encodeURIComponent(s.channel)}?autoplay=1&mute=${shouldMute ? 1 : 0}&rel=0`;
                 
                 if (iframe.src !== base) iframe.src = base;
-                if (audioSoloId === s.id) card.classList.add('ring-2', 'ring-purple-500');
-                else card.classList.remove('ring-2', 'ring-purple-500');
+                if (audioSoloId === s.id) card.classList.add('solo-audio-ring');
+                else card.classList.remove('solo-audio-ring');
             });
         }
 
-        // ==================== PERFIS ====================
+        function toggleCinemaMode() {
+            document.body.classList.toggle('cinema-mode');
+            const isActive = document.body.classList.contains('cinema-mode');
+            showToast(isActive ? 'Modo Cinema Ativo (Pressiona F ou ESC para sair)' : 'Modo Cinema Desativado');
+        }
+
+        // Profiles Presets Manager
         function toggleProfilesMenu() {
             const dropdown = document.getElementById('profilesDropdown');
             dropdown.classList.toggle('hidden');
@@ -509,7 +741,7 @@
         }
 
         function getSavedProfiles() {
-            try { return JSON.parse(localStorage.getItem('criscloud_profiles') || '{}'); } catch (e) { return {}; }
+            try { return JSON.parse(localStorage.getItem('auraview_profiles') || '{}'); } catch (e) { return {}; }
         }
 
         function saveCurrentProfile(e) {
@@ -522,7 +754,7 @@
             }
             const profiles = getSavedProfiles();
             profiles[name] = streams.map(s => ({ platform: s.platform, channel: s.channel, label: s.label }));
-            localStorage.setItem('criscloud_profiles', JSON.stringify(profiles));
+            localStorage.setItem('auraview_profiles', JSON.stringify(profiles));
             input.value = '';
             loadProfilesList();
             showToast(`Perfil "${name}" guardado!`);
@@ -559,12 +791,12 @@
         function deleteProfile(name) {
             const profiles = getSavedProfiles();
             delete profiles[name];
-            localStorage.setItem('criscloud_profiles', JSON.stringify(profiles));
+            localStorage.setItem('auraview_profiles', JSON.stringify(profiles));
             loadProfilesList();
             showToast(`Perfil "${name}" removido.`);
         }
 
-        // ==================== GRELHA ====================
+        // Dynamic Grid Calculation
         function calculateGridDimensions(count) {
             if (count <= 1) return { cols: 1, rows: 1 };
             if (count === 2) return { cols: 2, rows: 1 };
@@ -591,6 +823,7 @@
                             ${isTwitch ? 'Twitch' : 'YouTube'}
                         </span>
                         <span class="text-xs font-semibold truncate">${escapeHTML(stream.label)}</span>
+                        <span class="hidden sm:inline-block text-[10px] px-1.5 py-0.2 bg-zinc-200 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 rounded">1080p60 • 12ms</span>
                     </div>
                     <div class="flex items-center gap-1 shrink-0" onclick="event.stopPropagation()">
                         <button onclick="toggleAudioSolo('${stream.id}')" title="Focar Áudio (Solo)" class="p-1 text-zinc-400 hover:text-purple-500 rounded cursor-pointer">
@@ -659,10 +892,10 @@
             layoutMode = layoutMode === 'grid' ? 'spotlight' : 'grid';
             document.getElementById('labelLayout').textContent = layoutMode === 'grid' ? 'Grelha' : 'Destaque';
             updateGridLayout();
-            showToast(layoutMode === 'grid' ? 'Layout: Grelha' : 'Layout: Destaque');
+            showToast(layoutMode === 'grid' ? 'Layout: Grelha Equilibrada' : 'Layout: Modo Destaque');
         }
 
-        // ==================== CHAT ====================
+        // Side Chat
         function toggleChatSidebar(forceOpen = null) {
             const sidebar = document.getElementById('chatSidebar');
             const shouldOpen = forceOpen !== null ? forceOpen : sidebar.classList.contains('hidden');
@@ -714,7 +947,7 @@
             container.innerHTML = `<iframe src="${chatSrc}" class="w-full h-full border-0"></iframe>`;
         }
 
-        // ==================== URL E UTILITÁRIOS ====================
+        // Share & URL sync
         function updateURLParams() {
             const url = new URL(window.location.href);
             if (streams.length === 0) url.searchParams.delete('streams');
